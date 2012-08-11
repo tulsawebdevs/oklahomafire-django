@@ -6,7 +6,7 @@ This django app is self contained to plug into oklahomadata website to show the 
 Installation Instructions
 ----
 
-    1 git clone https://github.com/tulsawebdevs/oklahomafire-django oklahomafire
+    1 git clone https://github.com/tulsawebdevs/oklahomafire-django.git oklahomafire
     2 pip install -r oklahomafire/requirements.txt
     3 add `oklahomafire` to settings INSTALLED_APPS
     4 add the following to top level `urls.py`
