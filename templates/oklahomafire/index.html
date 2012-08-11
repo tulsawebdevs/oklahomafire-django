@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+<script>
+    $(document).ready(function(){
+        var initializeMap = function(latitude, longitude){
+            var mapOptions = {
+                center: new google.maps.LatLng(latitude, longitude),
+                zoom: 9,
+                mapTypeId: google.maps.MapTypeId.HYBRID
+            }
+
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+            $.ajax({
+                url: '/oklahomafire/all/',
+                success: function(data){
+                    for(var i in data){
+                        console.log(data[i].fields);
+                        new google.maps.Marker({
+                            position: new google.maps.LatLng(data[i].fields.latitude, data[i].fields.longitude),
+                            map: map
+                        });
+                    }
+                }
+            });
+
+        };
+
+        if("geolocation" in navigator){
+            navigator.geolocation.getCurrentPosition(function(position){
+                initializeMap(position.coords.latitude, position.coords.longitude);
+            });
+            } else {
+            initializeMap(33.79740, -39.69140);
+        }
+    });
+</script>
+<style>
+    #map{
+        height: 400px;
+        width: 480px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div>
+    <div id="map">
+    </div>
+</div>
+<div>
+    <center>
+        Brought to you by <a href="http://tulsawebdevs.org">Tulsa Web Devs</a>.<br />
+        Data Aquired from <a href="http://earthdata.nasa.gov/">NASA EOSDIS</a>. Dataset is <a href="http://earthdata.nasa.gov/data/nrt-data/firms/active-fire-data#tab-content-4">Active Fire Data</a>                                                                                                                      
+    </center>    
+</div>
+{% endblock %}
+
